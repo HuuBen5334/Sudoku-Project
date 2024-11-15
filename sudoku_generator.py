@@ -23,6 +23,7 @@ class SudokuGenerator:
 	None
     '''
     def __init__(self, row_length, removed_cells):
+        #hello test
         pass
 
     '''
