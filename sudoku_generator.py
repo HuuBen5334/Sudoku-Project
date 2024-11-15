@@ -32,6 +32,7 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
+        a=10
         pass
 
     '''
