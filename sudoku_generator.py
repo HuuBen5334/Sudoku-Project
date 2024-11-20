@@ -140,7 +140,14 @@ class Cell:
 
 class Board:
     def __init__(self, width, height, screen, difficulty):
+        if difficulty == 'easy':
+            self.removed_cells = 30
+        elif difficulty == 'medium':
+            self.removed_cells = 40
+        elif difficulty == 'hard':
+            self.removed_cells = 50
 
+        self.board = generate_sudoku(9, self.removed_cells)
         self.width = width
         self.height = height
         self.screen = screen
@@ -173,7 +180,7 @@ class Board:
             )
 
     def select(self, row, col):
-        self.selected =
+        self.selected = self.cells[row][col]
     def click(self, row, col):
         pass
     def clear(self):
