@@ -152,13 +152,12 @@ class Board:
         self.width = width
         self.height = height
         self.screen = screen
-        self.difficulty = difficulty
-        self.cells = [[Cell(self.board[i][j], i, j) for j in range(9)]for i in range(9)]
+        self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)]for i in range(9)]
         self.cell_size = width // 9
 
     def draw(self):
         # draw vertical lines
-        for i in range(1, 9):
+        for i in range(0, 10):
             line_width = 3 if i % 3 == 0 else 1
             pygame.draw.line(
                 self.screen,
@@ -169,7 +168,7 @@ class Board:
             )
 
         # draw horizontal lines
-        for i in range(1, 10):
+        for i in range(0, 10):
             line_width = 3 if i % 3 == 0 else 1
             pygame.draw.line(
                 self.screen,
@@ -199,24 +198,48 @@ class Board:
             self.selected_cell.value = 0
 
     def sketch(self, value):
-        self.selected_cell.sketched_value = value
-        sketch_font = pygame.font.Font(None, 20)
-        sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
-        sketch_rect = sketch_surf.get_rect(
-            topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
-        self.screen.blit(sketch_surf, sketch_rect)
+        if self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
+            self.selected_cell.set_cell_value(0)
+            self.selected_cell.set_sketched_value(0)
+            sketch_font = pygame.font.Font(None, 20)
+            sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
+            sketch_rect = sketch_surf.get_rect(
+                topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
+            self.screen.blit(sketch_surf, sketch_rect)
 
     def place_number(self, value):
-        pass
+        self.selected_cell.value = value
+
     def reset_to_original(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.original_board[i][j] == 0:
+                    self.cells[i][j].set_cell_value(0)
+                    self.cells[i][j].set_sketched_value(0)
+        self.update_board()
+
     def is_full(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.board[i][j] == 0:
+                    return False
+        return True
     def update_board(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                self.board[i][j] = self.cells[i][j].value
+
     def find_empty(self):
-        pass
+        for i in range(9):
+            for j in range(9):
+                if self.board[i][j] == 0:
+                    return i, j
     def check_board(self):
-        pass
+        sudoku_gen = SudokuGenerator(9, 0)
+        sudoku_gen.board = self.board
+        for i in range(9):
+            for j in range(9):
+                sudoku_gen.is_valid(i, j, self.board[i][j])
+
 
 
