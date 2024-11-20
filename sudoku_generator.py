@@ -133,7 +133,7 @@ class Cell:
         self.value = value
 
     def set_sketched_value(self, value):
-        pass
+        self.sketched_value = value
 
     def draw(self):
         pass
@@ -148,45 +148,64 @@ class Board:
             self.removed_cells = 50
 
         self.board = generate_sudoku(9, self.removed_cells)
+        self.original_board = self.board
         self.width = width
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.board = generate_sudoku(self.width, self.difficulty)
         self.cells = [[Cell(self.board[i][j], i, j) for j in range(9)]for i in range(9)]
-
+        self.cell_size = width // 9
 
     def draw(self):
         # draw vertical lines
-        for i in range(1,9):
+        for i in range(1, 9):
             line_width = 3 if i % 3 == 0 else 1
             pygame.draw.line(
                 self.screen,
                 "black",
-                ((self.width/9)*i, 0),
-                ((self.width/9)*i, self.width),
+                (self.cell_size*i, 0),
+                (self.cell_size*i, self.width),
                 line_width
             )
 
         # draw horizontal lines
-        for i in range(1,10):
+        for i in range(1, 10):
             line_width = 3 if i % 3 == 0 else 1
             pygame.draw.line(
                 self.screen,
                 "black",
-                (0,(self.width/9)*i ),
-                (self.width, (self.width/9)*i),
+                (0, self.cell_size*i ),
+                (self.width, self.cell_size*i),
                 line_width
             )
 
+        for i in range(9):
+            for j in range(9):
+                self.cells[i][j].draw()
+
     def select(self, row, col):
-        self.selected = self.cells[row][col]
-    def click(self, row, col):
-        pass
+        self.selected_cell = self.cells[row][col]
+        cell_rect = pygame.Rect(row*self.cell_size, col*self.cell_size, self.cell_size, self.cell_size)
+        pygame.draw.rect(self.screen, "red", cell_rect, 2)
+
+    def click(self, x, y):
+        if 0 <= x < self.width and 0 <= y < self.height:
+            return x // self.cell_size, y // self.cell_size
+        return None
+
     def clear(self):
-        pass
+        if self.selected_cell and self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
+            self.selected_cell.sketched_value = 0
+            self.selected_cell.value = 0
+
     def sketch(self, value):
-        pass
+        self.selected_cell.sketched_value = value
+        sketch_font = pygame.font.Font(None, 20)
+        sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
+        sketch_rect = sketch_surf.get_rect(
+            topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
+        self.screen.blit(sketch_surf, sketch_rect)
+
     def place_number(self, value):
         pass
     def reset_to_original(self):
