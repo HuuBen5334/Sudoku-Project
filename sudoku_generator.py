@@ -140,11 +140,40 @@ class Cell:
 
 class Board:
     def __init__(self, width, height, screen, difficulty):
-        pass
+
+        self.width = width
+        self.height = height
+        self.screen = screen
+        self.difficulty = difficulty
+        self.board = generate_sudoku(self.width, self.difficulty)
+        self.cells = [[Cell(self.board[i][j], i, j) for j in range(9)]for i in range(9)]
+
+
     def draw(self):
-        pass
+        # draw vertical lines
+        for i in range(1,9):
+            line_width = 3 if i % 3 == 0 else 1
+            pygame.draw.line(
+                self.screen,
+                "black",
+                ((self.width/9)*i, 0),
+                ((self.width/9)*i, self.width),
+                line_width
+            )
+
+        # draw horizontal lines
+        for i in range(1,10):
+            line_width = 3 if i % 3 == 0 else 1
+            pygame.draw.line(
+                self.screen,
+                "black",
+                (0,(self.width/9)*i ),
+                (self.width, (self.width/9)*i),
+                line_width
+            )
+
     def select(self, row, col):
-        pass
+        self.selected =
     def click(self, row, col):
         pass
     def clear(self):
