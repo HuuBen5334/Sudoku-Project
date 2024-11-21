@@ -221,15 +221,20 @@ class Cell:
         self.selected = False #To tell whether cell is selected or not
 
     def set_cell_value(self, value):
-        if 0 <= value <= 9:
-            self.value = value
+        self.value = value
 
 
     def set_sketched_value(self, value):
-        if 0 <= value <= 9:
-            self.sketched_value = value
+        self.sketched_value = value
 
     def draw(self):
+        cell_size = 50
+        x = self.col * cell_size
+        y = self.row * cell_size
+
+        color = (255, 0, 0) if self.selected else (0,0,0)
+        pygame.draw.rect(self.screen, color, (x, y, cell_size, cell_size), 2)
+
         pass
 
 class Board:
