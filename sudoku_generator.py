@@ -228,14 +228,22 @@ class Cell:
         self.sketched_value = value
 
     def draw(self):
-        cell_size = 50
+        cell_size = 50 #Change it to whatever
         x = self.col * cell_size
         y = self.row * cell_size
 
-        color = (255, 0, 0) if self.selected else (0,0,0)
-        pygame.draw.rect(self.screen, color, (x, y, cell_size, cell_size), 2)
+        pygame.draw.rect(self.screen, (0, 0, 0), (x, y, cell_size, cell_size), 1)
+        if self.selected:
+            pygame.draw.rect(self.screen, (255, 0, 0), (x, y, cell_size, cell_size), 3)
 
-        pass
+        font = pygame.font.Font(None, 36)
+        if self.value != 0:
+            text = font.render(str(self.value), True, (0, 0, 0))
+            self.screen.blit(text, (x + 15, y + 10))
+        elif self.sketched_value != 0:
+            sketched_font = pygame.font.Font(None, 24)
+            sketched_text = sketched_font.render(str(self.sketched_value), True, (128, 128, 128))
+            self.screen.blit(sketched_text, (x + 5, y + 5))
 
 class Board:
     def __init__(self, width, height, screen, difficulty):
