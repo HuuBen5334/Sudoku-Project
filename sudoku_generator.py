@@ -231,7 +231,7 @@ class Cell:
         self.sketched_value = value
 
     def draw(self):
-        cell_size = 100 #Change it to whatever
+        cell_size = 100
         x = self.col * cell_size
         y = self.row * cell_size
 
@@ -353,20 +353,3 @@ class Board:#Links logic to 2d list
 
         return True
 
-if __name__ == "__main__":
-    WIDTH = 900
-    HEIGHT = 900
-    pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Sudoku")
-    screen.fill("white")
-    board = Board(WIDTH, HEIGHT, screen, 'easy')
-    board.draw()
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        pygame.display.update()
