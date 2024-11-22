@@ -220,8 +220,8 @@ class Cell:
         self.row = row
         self.col = col
         self.screen = screen
+        self.selected = False
         self.sketched_value = 0
-        self.selected = False #To tell whether cell is selected or not
 
     def set_cell_value(self, value):
         self.value = value
