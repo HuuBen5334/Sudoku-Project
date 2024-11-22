@@ -36,7 +36,7 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        pass
+        return self.board
 
     '''
 	Displays the board to the console
@@ -231,7 +231,7 @@ class Cell:
         self.sketched_value = value
 
     def draw(self):
-        cell_size = 50 #Change it to whatever
+        cell_size = 100 #Change it to whatever
         x = self.col * cell_size
         y = self.row * cell_size
 
@@ -248,7 +248,7 @@ class Cell:
             sketched_text = sketched_font.render(str(self.sketched_value), True, (128, 128, 128))
             self.screen.blit(sketched_text, (x + 5, y + 5))
 
-class Board:
+class Board:#Links logic to 2d list
     def __init__(self, width, height, screen, difficulty):
         if difficulty == 'easy':
             self.removed_cells = 30
@@ -360,6 +360,8 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Sudoku")
     screen.fill("white")
+    board = Board(WIDTH, HEIGHT, screen, 'easy')
+    board.draw()
 
     while True:
         for event in pygame.event.get():
