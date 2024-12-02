@@ -23,11 +23,15 @@ def main():
     button_hover_color = (100, 100, 100)
     button_text_color = (255, 255, 255)
     button_width, button_height = 200, 50
+    game_button_width, game_button_height = 100, 50
 
     # Button positions
     easy_button = pygame.Rect((WIDTH // 2 - button_width // 2, HEIGHT // 2 - 100, button_width, button_height))
     medium_button = pygame.Rect((WIDTH // 2 - button_width // 2, HEIGHT // 2, button_width, button_height))
     hard_button = pygame.Rect((WIDTH // 2 - button_width // 2, HEIGHT // 2 + 100, button_width, button_height))
+    restart_button = pygame.Rect((WIDTH // 2 - game_button_width // 2, HEIGHT - 100, game_button_width, game_button_height))
+    reset_button = pygame.Rect((game_button_width // 2, HEIGHT - 100, game_button_width, game_button_height))
+    exit_button = pygame.Rect((WIDTH/1.666 + game_button_width, HEIGHT - 100, game_button_width, game_button_height))
 
     board = None
     game_started = False
@@ -44,6 +48,12 @@ def main():
             draw_button(screen, medium_button, "Medium", medium_button.collidepoint(mouse_pos), button_font, button_color, button_hover_color, button_text_color)
             draw_button(screen, hard_button, "Hard", hard_button.collidepoint(mouse_pos), button_font, button_color, button_hover_color, button_text_color)
 
+        if game_started:
+            draw_button(screen, restart_button, "Restart", restart_button.collidepoint(mouse_pos), button_font, button_color, button_hover_color, button_text_color)
+            draw_button(screen, reset_button, "Reset", reset_button.collidepoint(mouse_pos), button_font,
+                        button_color, button_hover_color, button_text_color)
+            draw_button(screen, exit_button, "Exit", exit_button.collidepoint(mouse_pos), button_font,
+                        button_color, button_hover_color, button_text_color)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -59,6 +69,9 @@ def main():
                     elif hard_button.collidepoint(mouse_pos):
                         board = Board(WIDTH, HEIGHT, screen, 'hard')
                         game_started = True
+                else:
+                    if restart_button.collidepoint(mouse_pos):
+                        main()
 
         if board:
             board.draw()
