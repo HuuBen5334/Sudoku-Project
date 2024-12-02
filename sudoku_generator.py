@@ -152,11 +152,10 @@ class Cell:
         if self.value != 0:
             text = font.render(str(self.value), True, (0, 0, 0))
             self.screen.blit(text, (x + 15, y + 10))
-        # Sketch value already done in board class
-        # elif self.sketched_value != 0:
-        #     sketched_font = pygame.font.Font(None, 24)
-        #     sketched_text = sketched_font.render(str(self.sketched_value), True, (128, 128, 128))
-        #     self.screen.blit(sketched_text, (x + 5, y + 5))
+        elif self.sketched_value != 0:
+            sketched_font = pygame.font.Font(None, 24)
+            sketched_text = sketched_font.render(str(self.sketched_value), True, (128, 128, 128))
+            self.screen.blit(sketched_text, (x + 5, y + 5))
 
 class Board:#Links logic to 2d list
     def __init__(self, width, height, screen, difficulty):
@@ -203,6 +202,10 @@ class Board:#Links logic to 2d list
                 self.cells[i][j].draw()
 
     def select(self, row, col):
+        for i in range(9):
+            for j in range(9):
+                self.cells[i][j].selected = False
+
         self.selected_cell = self.cells[row][col]
         self.cells[row][col].selected = True
 
@@ -223,12 +226,14 @@ class Board:#Links logic to 2d list
     def sketch(self, value):
         if self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
             self.selected_cell.set_cell_value(0)
-            self.selected_cell.set_sketched_value(0)
-            sketch_font = pygame.font.Font(None, 20)
-            sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
-            sketch_rect = sketch_surf.get_rect(
-                topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
-            self.screen.blit(sketch_surf, sketch_rect)
+            self.selected_cell.set_sketched_value(value)
+
+            #Sketch value done in cell class
+            # sketch_font = pygame.font.Font(None, 20)
+            # sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
+            # sketch_rect = sketch_surf.get_rect(
+            #     topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
+            # self.screen.blit(sketch_surf, sketch_rect)
 
     def place_number(self, value):
         self.selected_cell.value = value
