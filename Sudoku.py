@@ -10,8 +10,8 @@ def draw_button(screen, rect, text, is_hovered, button_font, button_color, butto
 
 
 def main():
-    WIDTH = 900
-    HEIGHT = 900
+    WIDTH = 630
+    HEIGHT = 800
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Sudoku")

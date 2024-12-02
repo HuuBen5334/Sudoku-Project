@@ -123,13 +123,14 @@ def generate_sudoku(size, removed):
     return board
 
 class Cell:
-    def __init__(self, value, row, col, screen):
+    def __init__(self, value, row, col, screen, screen_width):
         self.value = value
         self.row = row
         self.col = col
         self.screen = screen
         self.selected = False
         self.sketched_value = 0
+        self.cell_size = screen_width / 9
 
     def set_cell_value(self, value):
         self.value = value
@@ -139,13 +140,13 @@ class Cell:
         self.sketched_value = value
 
     def draw(self):
-        cell_size = 100
-        x = self.col * cell_size
-        y = self.row * cell_size
+        x = self.col * self.cell_size
+        y = self.row * self.cell_size
 
-        pygame.draw.rect(self.screen, (0, 0, 0), (x, y, cell_size, cell_size), 1)
+        # Cell outline already drawn in board class
+        # pygame.draw.rect(self.screen, (0, 0, 0), (x, y, self.cell_size, self.cell_size), 1)
         if self.selected:
-            pygame.draw.rect(self.screen, (255, 0, 0), (x, y, cell_size, cell_size), 3)
+            pygame.draw.rect(self.screen, (255, 0, 0), (x, y, self.cell_size, self.cell_size), 3)
 
         font = pygame.font.Font(None, 36)
         if self.value != 0:
@@ -171,8 +172,8 @@ class Board:#Links logic to 2d list
         self.width = width
         self.height = height
         self.screen = screen
-        self.cells = [[Cell(self.board[i][j], i, j, self.screen) for j in range(9)]for i in range(9)]
-        self.cell_size = width // 9
+        self.cells = [[Cell(self.board[i][j], i, j, self.screen, width) for j in range(9)]for i in range(9)]
+        self.cell_size = width / 9
 
     def draw(self):
         # draw vertical lines
