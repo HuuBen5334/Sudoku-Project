@@ -8,7 +8,8 @@ def draw_button(screen, rect, text, is_hovered, button_font, button_color, butto
     text_rect = text_surf.get_rect(center=rect.center)
     screen.blit(text_surf, text_rect)
 
-if __name__ == "__main__":
+
+def main():
     WIDTH = 900
     HEIGHT = 900
     pygame.init()
@@ -63,3 +64,6 @@ if __name__ == "__main__":
             board.draw()
 
         pygame.display.update()
+
+if __name__ == "__main__":
+    main()
