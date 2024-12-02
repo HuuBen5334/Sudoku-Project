@@ -215,7 +215,7 @@ class Board:#Links logic to 2d list
 
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
-            return x // self.cell_size, y // self.cell_size
+            return int(y // self.cell_size), int(x // self.cell_size)
         return None
 
     def clear(self):
@@ -235,8 +235,8 @@ class Board:#Links logic to 2d list
             #     topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
             # self.screen.blit(sketch_surf, sketch_rect)
 
-    def place_number(self, value):
-        self.selected_cell.value = value
+    def place_number(self):
+        self.selected_cell.value = self.selected_cell.sketched_value
 
     def reset_to_original(self):
         for i in range(9):

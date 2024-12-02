@@ -1,3 +1,5 @@
+import string
+
 from sudoku_generator import *
 import pygame, sys
 
@@ -85,6 +87,39 @@ def main():
                     if exit_button.collidepoint(mouse_pos):
                         pygame.quit()
                         sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN and game_started:
+                x,y = event.pos
+                if y < WIDTH:
+                    row, col = board.click(x,y)
+                    board.select(row,col)
+            if event.type == pygame.KEYDOWN and game_started:
+                if pygame.key.name(event.key).isdigit():
+                    value = chr(event.key)
+                    board.sketch(value)
+                if event.key == pygame.K_RETURN:
+                    board.place_number()
+                if event.key == pygame.K_BACKSPACE:
+                    board.clear()
+                if event.key == pygame.K_LEFT:
+                    col -= 1
+                    if col < 0:
+                        col = 8
+                    board.select(row, col)
+                if event.key == pygame.K_RIGHT:
+                    col += 1
+                    if col == 9:
+                        col = 0
+                    board.select(row, col)
+                if event.key == pygame.K_UP:
+                    row -= 1
+                    if row < 0:
+                        row = 8
+                    board.select(row, col)
+                if event.key == pygame.K_DOWN:
+                    row += 1
+                    if row == 9:
+                        row = 0
+                    board.select(row, col)
 
         if board:
             board.draw()
