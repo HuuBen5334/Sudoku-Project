@@ -48,12 +48,12 @@ class SudokuGenerator:
 
     # fills a 3x3 box from the given top left coordinates
     def fill_box(self, row_start, col_start):
-        int_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        int_set = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
         for row in range(0, 3):
             for col in range(0, 3):
-                random_digit = random.choice(int_list)
-                int_list.remove(random_digit)
+                random_digit = random.choice(int_set)
+                int_set.remove(random_digit)
 
                 self.board[row_start][col_start] = random_digit
                 col_start += 1
