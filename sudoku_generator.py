@@ -238,6 +238,7 @@ class Board:#Links logic to 2d list
 
     def place_number(self):
         self.selected_cell.value = self.selected_cell.sketched_value
+        self.board[self.selected_cell.row][self.selected_cell.col] = self.selected_cell.value
 
     def reset_to_original(self):
         for i in range(9):

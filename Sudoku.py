@@ -113,6 +113,7 @@ def main():
                         if board.check_board():
                             print("board checked")
                             screen.fill("white")
+                            pygame.display.update()
                         else:
                             screen.fill("white")
                             lose_surf = lose_text.render(welcome_text, True, "black")
