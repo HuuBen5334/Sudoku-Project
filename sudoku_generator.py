@@ -223,6 +223,7 @@ class Board:#Links logic to 2d list
         if self.selected_cell and self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
             self.selected_cell.sketched_value = 0
             self.selected_cell.value = 0
+            self.update_board()
 
     def sketch(self, value):
         if self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
@@ -238,7 +239,7 @@ class Board:#Links logic to 2d list
 
     def place_number(self):
         self.selected_cell.value = self.selected_cell.sketched_value
-        self.board[self.selected_cell.row][self.selected_cell.col] = self.selected_cell.value
+        self.update_board()
 
     def reset_to_original(self):
         for i in range(9):
