@@ -1,5 +1,6 @@
 import math,random
 import pygame
+import copy
 
 class SudokuGenerator:
     # initializes variables and board
@@ -168,7 +169,7 @@ class Board:#Links logic to 2d list
             self.removed_cells = 50
 
         self.board = generate_sudoku(9, self.removed_cells)
-        self.original_board = self.board
+        self.original_board = copy.deepcopy(self.board)
         self.width = width
         self.height = height
         self.screen = screen
@@ -210,9 +211,6 @@ class Board:#Links logic to 2d list
         self.selected_cell = self.cells[row][col]
         self.cells[row][col].selected = True
 
-        # Red border done in cell class
-        # cell_rect = pygame.Rect(row*self.cell_size, col*self.cell_size, self.cell_size, self.cell_size)
-        # pygame.draw.rect(self.screen, "red", cell_rect, 2)
 
     def click(self, x, y):
         if 0 <= x < self.width and 0 <= y < self.height:
@@ -220,6 +218,7 @@ class Board:#Links logic to 2d list
         return None
 
     def clear(self):
+        print(self.original_board[self.selected_cell.row][self.selected_cell.col])
         if self.selected_cell and self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
             self.selected_cell.sketched_value = 0
             self.selected_cell.value = 0
@@ -229,13 +228,6 @@ class Board:#Links logic to 2d list
         if self.original_board[self.selected_cell.row][self.selected_cell.col] == 0:
             self.selected_cell.set_cell_value(0)
             self.selected_cell.set_sketched_value(value)
-
-            #Sketch value done in cell class
-            # sketch_font = pygame.font.Font(None, 20)
-            # sketch_surf = sketch_font.render(str(self.selected_cell.sketched_value), True, "lightgrey")
-            # sketch_rect = sketch_surf.get_rect(
-            #     topleft=(self.selected_cell.row*self.cell_size+3, self.selected_cell.col*self.cell_size))
-            # self.screen.blit(sketch_surf, sketch_rect)
 
     def place_number(self):
         self.selected_cell.value = self.selected_cell.sketched_value
