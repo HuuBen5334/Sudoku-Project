@@ -1,5 +1,8 @@
 import string
 
+from pygame.examples.moveit import GameObject
+from pygame.examples.playmus import Window
+
 from sudoku_generator import *
 import pygame, sys
 
@@ -20,8 +23,15 @@ def main():
     pygame.display.set_caption("Sudoku")
     screen.fill("white")
 
+    # Beginning and End text
     welcome_text = 'Welcome to Sudoku!'
     welcome_font = pygame.font.Font(None, 80)
+
+    win_text = 'Game Won!'
+    win_font = pygame.font.Font(None, 80)
+
+    lose_text = 'Game Over :('
+    lose_text = pygame.font.Font(None, 80)
 
     # Define button properties
     button_font = pygame.font.Font(None, 36)
@@ -94,10 +104,19 @@ def main():
                     board.select(row,col)
             if event.type == pygame.KEYDOWN and game_started:
                 if pygame.key.name(event.key).isdigit():
-                    value = chr(event.key)
+                    value = int(pygame.key.name(event.key))
                     board.sketch(value)
                 if event.key == pygame.K_RETURN:
                     board.place_number()
+                    if board.is_full():
+                        if board.check_board():
+                            screen.fill("white")
+                        else:
+                            screen.fill("white")
+                            lose_surf = lose_text.render(welcome_text, True, "black")
+                            lose_rect = welcome_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
+                            screen.blit(lose_surf, lose_rect)
+
                 if event.key == pygame.K_BACKSPACE:
                     board.clear()
                 if event.key == pygame.K_LEFT:

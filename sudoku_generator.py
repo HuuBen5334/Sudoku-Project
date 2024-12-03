@@ -150,8 +150,9 @@ class Cell:
 
         font = pygame.font.Font(None, 36)
         if self.value != 0:
-            text = font.render(str(self.value), True, (0, 0, 0))
-            self.screen.blit(text, (x + 15, y + 10))
+            text = font.render(str(self.value), True, "black")
+            text_rect = text.get_rect(center=(x+self.cell_size/2,y+self.cell_size/2))
+            self.screen.blit(text, text_rect)
         elif self.sketched_value != 0:
             sketched_font = pygame.font.Font(None, 24)
             sketched_text = sketched_font.render(str(self.sketched_value), True, (128, 128, 128))
