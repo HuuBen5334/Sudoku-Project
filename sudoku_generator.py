@@ -249,7 +249,6 @@ class Board:#Links logic to 2d list
         self.update_board()
 
     def is_full(self):
-        print("checking if full")
         for i in range(9):
             for j in range(9):
                 if self.board[i][j] == 0:
@@ -266,12 +265,13 @@ class Board:#Links logic to 2d list
                 if self.board[i][j] == 0:
                     return i, j
     def check_board(self):
-        print("Checking board")
         sudoku_gen = SudokuGenerator(9, 0)
         sudoku_gen.board = self.board
         for i in range(9):
             for j in range(9):
-                sudoku_gen.is_valid(i, j, self.board[i][j])
+                if not sudoku_gen.is_valid(i, j, self.board[i][j]):
+                    return False
+
 
         return True
 

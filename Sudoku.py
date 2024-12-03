@@ -31,7 +31,7 @@ def main():
     win_font = pygame.font.Font(None, 80)
 
     lose_text = 'Game Over :('
-    lose_text = pygame.font.Font(None, 80)
+    lose_font = pygame.font.Font(None, 80)
 
     # Define button properties
     button_font = pygame.font.Font(None, 36)
@@ -51,6 +51,7 @@ def main():
 
     board = None
     game_started = False
+    gameOver = False
 
     while True:
         screen.fill("white")
@@ -111,15 +112,7 @@ def main():
                     board.place_number()
                     if board.is_full():
                         print("board is full")
-                        if board.check_board():
-                            print("board checked")
-                            screen.fill("white")
-                            pygame.display.update()
-                        else:
-                            screen.fill("white")
-                            lose_surf = lose_text.render(welcome_text, True, "black")
-                            lose_rect = welcome_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
-                            screen.blit(lose_surf, lose_rect)
+                        gameOver = True
 
                 if event.key == pygame.K_BACKSPACE:
                     board.clear()
@@ -146,6 +139,15 @@ def main():
 
         if board:
             board.draw()
+
+        if gameOver:
+            if board.check_board():
+                screen.fill("white")
+            else:
+                screen.fill("white")
+                lose_surf = lose_font.render(lose_text, True, "black")
+                lose_rect = lose_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
+                screen.blit(lose_surf, lose_rect)
 
         pygame.display.update()
 
