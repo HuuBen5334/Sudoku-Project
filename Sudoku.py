@@ -98,6 +98,7 @@ def main():
                         pygame.quit()
                         sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and game_started:
+                fill_board_with_bs_numbers(board)
                 x,y = event.pos
                 if y < WIDTH:
                     row, col = board.click(x,y)
@@ -147,6 +148,13 @@ def main():
             board.draw()
 
         pygame.display.update()
+
+def fill_board_with_bs_numbers(board):
+    for i in range(9):
+        for j in range(9):
+            board.select(i, j)
+            board.sketch(1)
+            board.place_number()
 
 if __name__ == "__main__":
     main()
