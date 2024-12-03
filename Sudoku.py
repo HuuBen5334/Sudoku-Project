@@ -109,7 +109,9 @@ def main():
                 if event.key == pygame.K_RETURN:
                     board.place_number()
                     if board.is_full():
+                        print("board is full")
                         if board.check_board():
+                            print("board checked")
                             screen.fill("white")
                         else:
                             screen.fill("white")
