@@ -108,7 +108,6 @@ def main():
                 if event.key == pygame.K_RETURN:
                     board.place_number()
                     if board.is_full():
-                        print("board is full")
                         gameOver = True
 
                 if event.key == pygame.K_BACKSPACE:
@@ -140,7 +139,7 @@ def main():
         if gameOver:
             if board.check_board():
                 screen.fill("white")
-                win_surf = win_font.render(lose_text, True, "black")
+                win_surf = win_font.render(win_text, True, "black")
                 win_rect = win_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
                 screen.blit(win_surf, win_rect)
                 draw_button(screen, win_exit_button, "Exit", win_exit_button.collidepoint(mouse_pos), button_font,

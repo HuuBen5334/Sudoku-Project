@@ -231,14 +231,29 @@ class Board:#Links logic to 2d list
             for j in range(9):
                 if self.board[i][j] == 0:
                     return i, j
+
     def check_board(self):
-        sudoku_gen = SudokuGenerator(9, 0)
-        sudoku_gen.board = self.board
-        for i in range(9):
-            for j in range(9):
-                if not sudoku_gen.is_valid(i, j, self.board[i][j]):
+        # Check all rows
+        for row in self.board:
+            if sorted(row) != list(range(1, 10)):
+                return False
+
+        # Check all columns
+        for col in range(9):
+            column = [self.board[row][col] for row in range(9)]
+            if sorted(column) != list(range(1, 10)):
+                return False
+
+        # Check all 3x3 sub-boxes
+        for box_row in range(0, 9, 3):
+            for box_col in range(0, 9, 3):
+                box = []
+                for i in range(3):
+                    for j in range(3):
+                        box.append(self.board[box_row + i][box_col + j])
+                if sorted(box) != list(range(1, 10)):
                     return False
 
-
+        # All checks passed
         return True
 
