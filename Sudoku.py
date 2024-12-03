@@ -1,9 +1,3 @@
-import string
-
-from numpy.f2py.crackfortran import endifs
-from pygame.examples.moveit import GameObject
-from pygame.examples.playmus import Window
-
 from sudoku_generator import *
 import pygame, sys
 
