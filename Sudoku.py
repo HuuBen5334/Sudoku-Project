@@ -1,5 +1,6 @@
 import string
 
+from numpy.f2py.crackfortran import endifs
 from pygame.examples.moveit import GameObject
 from pygame.examples.playmus import Window
 
@@ -48,6 +49,8 @@ def main():
     restart_button = pygame.Rect((WIDTH // 2 - game_button_width // 2, HEIGHT - 100, game_button_width, game_button_height))
     reset_button = pygame.Rect((WIDTH/4 - game_button_width, HEIGHT - 100, game_button_width, game_button_height))
     exit_button = pygame.Rect((WIDTH*(3/5) + game_button_width, HEIGHT - 100, game_button_width, game_button_height))
+    win_exit_button = pygame.Rect((WIDTH // 2 - button_width // 2, HEIGHT // 2, button_width, button_height))
+    lose_restart_button = pygame.Rect((WIDTH // 2 - button_width // 2, HEIGHT // 2, button_width, button_height))
 
     board = None
     game_started = False
@@ -99,7 +102,7 @@ def main():
                         pygame.quit()
                         sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN and game_started:
-                fill_board_with_bs_numbers(board)
+                # fill_board_with_bs_numbers(board)
                 x,y = event.pos
                 if y < WIDTH:
                     row, col = board.click(x,y)
@@ -143,11 +146,28 @@ def main():
         if gameOver:
             if board.check_board():
                 screen.fill("white")
+                win_surf = win_font.render(lose_text, True, "black")
+                win_rect = win_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
+                screen.blit(win_surf, win_rect)
+                draw_button(screen, win_exit_button, "Exit", win_exit_button.collidepoint(mouse_pos), button_font,
+                            button_color, button_hover_color, button_text_color)
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button:
+                        if win_exit_button.collidepoint(mouse_pos):
+                            pygame.quit()
+                            sys.exit()
+
             else:
                 screen.fill("white")
                 lose_surf = lose_font.render(lose_text, True, "black")
                 lose_rect = lose_surf.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 200))
                 screen.blit(lose_surf, lose_rect)
+                draw_button(screen, lose_restart_button, "Restart", lose_restart_button.collidepoint(mouse_pos), button_font,
+                            button_color, button_hover_color, button_text_color)
+                for event in pygame.event.get():
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button:
+                        if lose_restart_button.collidepoint(mouse_pos):
+                            main()
 
         pygame.display.update()
 
