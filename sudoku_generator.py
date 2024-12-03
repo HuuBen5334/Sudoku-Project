@@ -52,7 +52,7 @@ class SudokuGenerator:
 
         for row in range(0, 3):
             for col in range(0, 3):
-                random_digit = random.choice(int_set)
+                random_digit = random.choice(tuple(int_set))
                 int_set.remove(random_digit)
 
                 self.board[row_start][col_start] = random_digit
